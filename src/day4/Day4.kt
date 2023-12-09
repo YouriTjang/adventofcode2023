@@ -14,7 +14,7 @@ fun main() {
             val numberStrings = numbers.trim().split(" ").filter { it.isNotEmpty() }.map { it.toInt() }
 
             val count = numberStrings.count { winningStrings.contains(it) }
-            if (count > 0 ) {
+            if (count > 0) {
                 2.0.pow(count - 1)
             } else {
                 0
@@ -22,7 +22,6 @@ fun main() {
         }.sumOf { it.toInt() }
 
     fun part2(input: List<String>): Int {
-
         val results = input.map { line ->
             val (_, right) = line.split(":")
             val (winning, numbers) = right.split("|")
@@ -34,10 +33,16 @@ fun main() {
             count
         }
 
-        val histogram = List(results.size) { index -> index+1 to 1 }.toMap().toMutableMap()
+        val winCount = List(input.size) { _ -> 1 }.toMutableList()
 
-        TODO()
-//        results.forEach {  }
+        for (i in 0 until winCount.size) {
+            for (j in 1..results[i]) {
+                if (i + j < winCount.size) {
+                    winCount[i + j] += winCount[i]
+                }
+            }
+        }
+        return winCount.sum()
     }
 
     // test if implementation meets criteria from the description, like:
@@ -47,10 +52,10 @@ fun main() {
     val input = readInput("day4/data")
     part1(input).println()
 
-//    val testInputPart2 = readInput("day4/test")
-//    val part2test = part2(testInputPart2)
-//    check(part2test == 2286)
-//
-//    part2(input).println()
+    val testInputPart2 = readInput("day4/test")
+    val part2test = part2(testInputPart2)
+    check(part2test == 30)
+
+    part2(input).println()
 
 }
